@@ -19,8 +19,26 @@ const CURVE_FILL = CURVE_LINE + ' L1000,480 L0,480 Z'
 
 interface Star { x: number; y: number; r: number; phase: number; speed: number; driftX: number; driftY: number; driftSpeed: number }
 
+async function handleCheckout(plan: string) {
+  const res = await fetch('/api/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plan }),
+  })
+  if (res.status === 401) { window.location.href = '/signup?redirect=pricing'; return }
+  const { url } = await res.json()
+  if (url) window.location.href = url
+}
+
 export default function LandingPage() {
   const [cursorHover, setCursorHover] = useState(false)
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
+
+  async function checkout(plan: string) {
+    setLoadingPlan(plan)
+    await handleCheckout(plan)
+    setLoadingPlan(null)
+  }
 
   // Two-part cursor
   const dotRef  = useRef<HTMLDivElement>(null)
@@ -404,9 +422,9 @@ export default function LandingPage() {
               </p>
 
               <div className="l-ctas" style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-                <Link href="/signup" className="l-btn-gold l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '12px', fontWeight: 500, color: '#09090B', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '13px 30px', borderRadius: '5px', background: '#C9A227', textDecoration: 'none', display: 'inline-block' }}>
-                  Start free
-                </Link>
+                <a href="#pricing" className="l-btn-gold l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '12px', fontWeight: 500, color: '#09090B', letterSpacing: '0.08em', textTransform: 'uppercase', padding: '13px 30px', borderRadius: '5px', background: '#C9A227', textDecoration: 'none', display: 'inline-block' }}>
+                  See plans
+                </a>
                 <Link href="/login" className="l-btn-ghost l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '12px', fontWeight: 400, color: '#8A8578', letterSpacing: '0.06em', padding: '13px 26px', borderRadius: '5px', border: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', display: 'inline-block' }}>
                   Sign in
                 </Link>
@@ -476,33 +494,116 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ── FINAL CTA ────────────────────────────────────── */}
-        <section style={{ position: 'relative', zIndex: 5, textAlign: 'center', padding: '112px 28px' }}>
-          <div ref={addReveal(8)} style={{ ...reveal(8) }}>
-            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(201,162,39,0.65)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: '28px' }}>Begin your edge</p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(40px, 5.5vw, 74px)', fontWeight: 300, color: '#E8E4D8', lineHeight: 1.04, letterSpacing: '-0.025em', marginBottom: '44px' }}>
+        {/* ── PRICING ──────────────────────────────────────── */}
+        <section id="pricing" style={{ position: 'relative', zIndex: 5, padding: '112px 28px' }}>
+          <div ref={addReveal(8)} style={{ ...reveal(8), textAlign: 'center', marginBottom: '64px' }}>
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(201,162,39,0.65)', letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: '20px' }}>Simple pricing</p>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(38px, 5vw, 64px)', fontWeight: 300, color: '#E8E4D8', lineHeight: 1.04, letterSpacing: '-0.025em', margin: 0 }}>
               Your edge is<br /><em style={{ color: '#C9A227' }}>already inside you.</em>
             </h2>
-            <Link href="/signup" className="l-btn-gold l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '12px', fontWeight: 500, color: '#09090B', letterSpacing: '0.09em', textTransform: 'uppercase', padding: '14px 40px', borderRadius: '5px', background: '#C9A227', textDecoration: 'none', display: 'inline-block' }}>
-              Start free — no credit card
-            </Link>
-            <div style={{ marginTop: '22px' }}>
-              <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640', textDecoration: 'none', letterSpacing: '0.05em', display: 'inline-block' }}>
-                Already have an account? Sign in →
-              </Link>
+          </div>
+
+          <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', alignItems: 'start' }}>
+
+            {/* Monthly */}
+            <div ref={addReveal(9)} style={{ ...reveal(9), borderRadius: '12px', background: '#111113', border: '1px solid rgba(255,255,255,0.06)', padding: '36px 32px 32px', display: 'flex', flexDirection: 'column', gap: '0' }}>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4A4640', marginBottom: '20px' }}>Monthly</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '6px' }}>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '54px', fontWeight: 300, color: '#E8E4D8', lineHeight: 1, letterSpacing: '-0.03em' }}>$9</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '20px', fontWeight: 300, color: '#8A8578' }}>.99</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640', marginLeft: '4px' }}>/month</span>
+              </div>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: '#4A4640', marginBottom: '28px', letterSpacing: '0.04em' }}>Billed monthly — cancel any time</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {['Full journal & analytics', 'Psychology scoring', 'Pattern detection', 'Unlimited trade entries'].map(f => (
+                  <li key={f} style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#8A8578', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ color: '#C9A227', fontSize: '8px' }}>✦</span>{f}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => checkout('monthly')} disabled={loadingPlan === 'monthly'} className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8A8578', padding: '12px 0', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center', display: 'block', width: '100%', background: 'transparent', cursor: 'pointer', opacity: loadingPlan === 'monthly' ? 0.5 : 1 }}>
+                {loadingPlan === 'monthly' ? 'Redirecting…' : 'Add to cart'}
+              </button>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.6)', textAlign: 'center', marginTop: '10px', letterSpacing: '0.04em' }}>VAT calculated at checkout</div>
             </div>
+
+            {/* Yearly — highlighted */}
+            <div ref={addReveal(10)} style={{ ...reveal(10), borderRadius: '12px', background: 'rgba(201,162,39,0.04)', border: '1px solid rgba(201,162,39,0.28)', padding: '36px 32px 32px', display: 'flex', flexDirection: 'column', gap: '0', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '-1px', left: '50%', transform: 'translateX(-50%)', background: '#C9A227', color: '#09090B', fontFamily: "'IBM Plex Mono', monospace", fontSize: '8.5px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 14px', borderRadius: '0 0 8px 8px' }}>Most popular</div>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(201,162,39,0.7)', marginBottom: '20px' }}>Yearly</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '6px' }}>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '54px', fontWeight: 300, color: '#E8E4D8', lineHeight: 1, letterSpacing: '-0.03em' }}>$99</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '20px', fontWeight: 300, color: '#8A8578' }}>.99</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640', marginLeft: '4px' }}>/year</span>
+              </div>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(201,162,39,0.55)', marginBottom: '28px', letterSpacing: '0.04em' }}>Billed every 12 months — save 17%</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {['Everything in Monthly', 'Priority support', 'Early access to new features', 'Annual performance report'].map(f => (
+                  <li key={f} style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#8A8578', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ color: '#C9A227', fontSize: '8px' }}>✦</span>{f}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => checkout('yearly')} disabled={loadingPlan === 'yearly'} className="l-btn-gold l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#09090B', padding: '13px 0', borderRadius: '6px', background: '#C9A227', textAlign: 'center', display: 'block', width: '100%', border: 'none', cursor: 'pointer', opacity: loadingPlan === 'yearly' ? 0.5 : 1 }}>
+                {loadingPlan === 'yearly' ? 'Redirecting…' : 'Add to cart'}
+              </button>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.6)', textAlign: 'center', marginTop: '10px', letterSpacing: '0.04em' }}>VAT calculated at checkout</div>
+            </div>
+
+            {/* Lifetime */}
+            <div ref={addReveal(11)} style={{ ...reveal(11), borderRadius: '12px', background: '#111113', border: '1px solid rgba(255,255,255,0.06)', padding: '36px 32px 32px', display: 'flex', flexDirection: 'column', gap: '0' }}>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4A4640', marginBottom: '20px' }}>Lifetime</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '6px' }}>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '54px', fontWeight: 300, color: '#E8E4D8', lineHeight: 1, letterSpacing: '-0.03em' }}>$199</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '20px', fontWeight: 300, color: '#8A8578' }}>.99</span>
+                <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640', marginLeft: '4px' }}>one-time</span>
+              </div>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: '#4A4640', marginBottom: '28px', letterSpacing: '0.04em' }}>Pay once, use forever</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {['Everything in Yearly', 'All future features included', 'Lifetime priority support', 'No renewal, no surprises'].map(f => (
+                  <li key={f} style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#8A8578', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <span style={{ color: '#C9A227', fontSize: '8px' }}>✦</span>{f}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => checkout('lifetime')} disabled={loadingPlan === 'lifetime'} className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8A8578', padding: '12px 0', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'center', display: 'block', width: '100%', background: 'transparent', cursor: 'pointer', opacity: loadingPlan === 'lifetime' ? 0.5 : 1 }}>
+                {loadingPlan === 'lifetime' ? 'Redirecting…' : 'Add to cart'}
+              </button>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.6)', textAlign: 'center', marginTop: '10px', letterSpacing: '0.04em' }}>VAT calculated at checkout</div>
+            </div>
+
+          </div>
+
+          <div ref={addReveal(12)} style={{ ...reveal(12), textAlign: 'center', marginTop: '48px' }}>
+            <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640', textDecoration: 'none', letterSpacing: '0.05em', display: 'inline-block' }}>
+              Already have an account? Sign in →
+            </Link>
           </div>
         </section>
 
         {/* ── FOOTER ───────────────────────────────────────── */}
-        <footer style={{ position: 'relative', zIndex: 5, borderTop: '1px solid rgba(255,255,255,0.04)', padding: '24px 28px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '21px', fontWeight: 400, color: '#E8E4D8' }}>
-            DIS<span style={{ color: '#C9A227' }}>A</span>pline
-          </span>
-          <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
-            <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign in</Link>
-            <Link href="/signup" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign up</Link>
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.5)', letterSpacing: '0.06em' }}>© 2025 DISApline</span>
+        <footer style={{ position: 'relative', zIndex: 5, borderTop: '1px solid rgba(255,255,255,0.04)', padding: '24px 28px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '21px', fontWeight: 400, color: '#E8E4D8' }}>
+              DIS<span style={{ color: '#C9A227' }}>A</span>pline
+            </span>
+            <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
+              <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign in</Link>
+              <Link href="/signup" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign up</Link>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.5)', letterSpacing: '0.06em' }}>© 2026 DISApline S.R.L.</span>
+            </div>
+          </div>
+          <div style={{ marginTop: '16px', display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+            {[
+              { label: 'Privacy Policy', href: '/privacy' },
+              { label: 'Terms of Service', href: '/terms' },
+              { label: 'Disclosures', href: '/disclosures' },
+              { label: 'Cookies', href: '/cookies' },
+            ].map(({ label, href }) => (
+              <Link key={href} href={href} style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9.5px', letterSpacing: '0.06em', color: 'rgba(74,70,64,0.55)', textDecoration: 'none' }}>
+                {label}
+              </Link>
+            ))}
           </div>
         </footer>
 

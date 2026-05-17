@@ -14,5 +14,5 @@ export default async function TradesPage() {
     .eq('user_id', user!.id)
     .order('entry_at', { ascending: false })
 
-  return <TradesClient trades={(data ?? []) as Trade[]} />
+  return <TradesClient trades={(data ?? []) as Trade[]} userId={user!.id} />
 }

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile } from '@/types'
-import { LayoutDashboard, TrendingUp, Brain, BookOpen, ShieldCheck, LogOut, BarChart2, NotebookPen, Sun, Moon, Activity } from 'lucide-react'
+import { LayoutDashboard, TrendingUp, Brain, BookOpen, ShieldCheck, LogOut, BarChart2, NotebookPen, Sun, Moon, Activity, CreditCard } from 'lucide-react'
 import { useTheme } from '@/components/ui/ThemeProvider'
 
 const NAV = [
@@ -16,6 +16,7 @@ const NAV = [
   { href: '/journal',    icon: BookOpen,         label: 'Journal' },
   { href: '/notebook',   icon: NotebookPen,      label: 'Notebook' },
   { href: '/rules',      icon: ShieldCheck,      label: 'Rules' },
+  { href: '/pricing',    icon: CreditCard,       label: 'Upgrade' },
 ]
 
 export default function Sidebar({ profile }: { profile: Profile | null }) {

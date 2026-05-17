@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { formatET } from '@/lib/et'
-import { TrendingUp, TrendingDown, Plus, Search, Camera } from 'lucide-react'
+import { TrendingUp, TrendingDown, Plus, Search, Upload, Camera } from 'lucide-react'
 import type { Trade } from '@/types'
+import ImportModal from '@/components/trades/ImportModal'
 
 const input: React.CSSProperties = {
   background: 'rgba(255,255,255,0.03)', border: '1px solid var(--bdr)',
@@ -13,10 +14,12 @@ const input: React.CSSProperties = {
   borderRadius: '6px', outline: 'none',
 }
 
-export default function TradesClient({ trades }: { trades: Trade[] }) {
+export default function TradesClient({ trades: initialTrades, userId }: { trades: Trade[]; userId: string }) {
+  const [trades, setTrades] = useState<Trade[]>(initialTrades)
   const [search, setSearch] = useState('')
   const [direction, setDirection] = useState<'all' | 'long' | 'short'>('all')
   const [status, setStatus] = useState<'all' | 'open' | 'closed'>('all')
+  const [showImport, setShowImport] = useState(false)
 
   const filtered = trades.filter(t => {
     if (search && !t.symbol.toLowerCase().includes(search.toLowerCase())) return false
@@ -48,16 +51,36 @@ export default function TradesClient({ trades }: { trades: Trade[] }) {
             </span>
           </p>
         </div>
-        <Link href="/trades/new" style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          background: 'var(--gold)', color: '#06060A',
-          fontFamily: "'Martian Mono', monospace", fontSize: '10.5px', fontWeight: 500,
-          letterSpacing: '0.08em', textTransform: 'uppercase',
-          padding: '10px 18px', borderRadius: '7px', textDecoration: 'none',
-        }}>
-          <Plus size={14} />
-          New Trade
-        </Link>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button onClick={() => setShowImport(true)} style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'transparent', color: 'var(--smoke)',
+            fontFamily: "'Martian Mono', monospace", fontSize: '10.5px', fontWeight: 400,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            padding: '10px 16px', borderRadius: '7px', border: '1px solid var(--bdr)', cursor: 'pointer',
+          }}>
+            <Upload size={14} />
+            Import
+          </button>
+          <Link href="/trades/new" style={{
+            display: 'flex', alignItems: 'center', gap: '8px',
+            background: 'var(--gold)', color: '#06060A',
+            fontFamily: "'Martian Mono', monospace", fontSize: '10.5px', fontWeight: 500,
+            letterSpacing: '0.08em', textTransform: 'uppercase',
+            padding: '10px 18px', borderRadius: '7px', textDecoration: 'none',
+          }}>
+            <Plus size={14} />
+            New Trade
+          </Link>
+        </div>
+
+        {showImport && (
+          <ImportModal
+            userId={userId}
+            onClose={() => setShowImport(false)}
+            onImported={() => { setShowImport(false); window.location.reload() }}
+          />
+        )}
       </div>
 
       {/* Filters */}

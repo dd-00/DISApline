@@ -7,6 +7,14 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
+  const { data: subscription } = await supabase
+    .from('subscriptions')
+    .select('status')
+    .eq('user_id', user.id)
+    .maybeSingle()
+
+  if (!subscription || subscription.status !== 'active') redirect('/pricing')
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')

@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   const { pathname } = request.nextUrl
 
-  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup')
+  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/signup') || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password')
   const isAppRoute  = pathname.startsWith('/dashboard') || pathname.startsWith('/trades') ||
                       pathname.startsWith('/analytics') || pathname.startsWith('/checkin') ||
                       pathname.startsWith('/insights') || pathname.startsWith('/rules') ||
@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
   if (user && isAuthRoute) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    return NextResponse.redirect(new URL('/pricing', request.url))
   }
 
   return supabaseResponse
