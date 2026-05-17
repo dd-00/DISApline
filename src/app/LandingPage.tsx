@@ -480,6 +480,49 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ── BROKER INTEGRATIONS ──────────────────────────── */}
+        <section style={{ position: 'relative', zIndex: 5, padding: '88px 28px', borderTop: '1px solid rgba(255,255,255,0.04)', background: 'rgba(255,255,255,0.008)' }}>
+          <div style={{ maxWidth: '1180px', margin: '0 auto' }}>
+            <div ref={addReveal(13)} style={{ ...reveal(0), textAlign: 'center', marginBottom: '52px' }}>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C9A227', marginBottom: '14px' }}>Broker integrations</div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(30px, 3.8vw, 48px)', fontWeight: 300, letterSpacing: '-0.025em', lineHeight: 1.08, color: '#E8E4D8', marginBottom: '18px' }}>
+                Import your full trade history<br />in seconds.
+              </h2>
+              <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 300, color: '#8A8578', maxWidth: '440px', margin: '0 auto', lineHeight: 1.82, letterSpacing: '0.02em' }}>
+                Drop your CSV export — broker is auto-detected. No configuration, no manual entry, no duplicate imports.
+              </p>
+            </div>
+
+            <div ref={addReveal(14)} style={{ ...reveal(1), display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
+              {[
+                { name: 'MetaTrader',    sub: 'MT4 · MT5'           },
+                { name: 'Tradovate',     sub: 'Futures · Options'   },
+                { name: 'IBKR',         sub: 'Interactive Brokers'  },
+                { name: 'NinjaTrader',   sub: 'NT8'                 },
+                { name: 'ThinkOrSwim',   sub: 'TD Ameritrade'       },
+              ].map(({ name, sub }) => (
+                <div key={name} style={{
+                  padding: '22px 28px', borderRadius: '10px',
+                  background: '#111113', border: '1px solid rgba(255,255,255,0.055)',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
+                  minWidth: '160px', flex: '0 0 auto',
+                  transition: 'border-color 0.22s, background 0.22s, box-shadow 0.22s',
+                }} className="l-card">
+                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '8px', fontWeight: 500, color: '#C9A227', letterSpacing: '0.18em', textTransform: 'uppercase', background: 'rgba(201,162,39,0.1)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(201,162,39,0.2)' }}>CSV</span>
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '20px', fontWeight: 400, color: '#E8E4D8', letterSpacing: '-0.01em' }}>{name}</span>
+                  <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: '#4A4640', letterSpacing: '0.06em' }}>{sub}</span>
+                </div>
+              ))}
+            </div>
+
+            <div ref={addReveal(15)} style={{ ...reveal(2), textAlign: 'center', marginTop: '40px' }}>
+              <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9.5px', color: 'rgba(74,70,64,0.55)', letterSpacing: '0.06em', lineHeight: 1.8 }}>
+                MT4 Detailed Report · MT5 Detailed Report · Tradovate Orders CSV · IBKR Flex Query ·<br />NinjaTrader Executions / Trade Performance · ThinkOrSwim Account Statement
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ── PHILOSOPHY QUOTE ─────────────────────────────── */}
         <section style={{ position: 'relative', zIndex: 5, borderTop: '1px solid rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.04)', padding: '96px 28px', background: 'linear-gradient(180deg, rgba(201,162,39,0.022) 0%, transparent 100%)' }}>
           <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,162,39,0.055), transparent 70%)', pointerEvents: 'none' }} />

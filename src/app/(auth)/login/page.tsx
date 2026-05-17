@@ -65,6 +65,7 @@ export default function LoginPage() {
 
         <button
           type="submit" disabled={loading}
+          className="l-magnetic l-btn-gold"
           style={{ background: 'var(--gold)', color: '#06060A', fontFamily: "'Martian Mono', monospace", fontSize: '10.5px', fontWeight: 500, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '13px', borderRadius: '6px', border: 'none', cursor: 'pointer', marginTop: '4px', opacity: loading ? 0.7 : 1, transition: 'opacity 0.2s' }}
         >
           {loading ? 'Signing in…' : 'Sign In'}
