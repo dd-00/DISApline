@@ -86,9 +86,14 @@ export default function LegalPage({ title, subtitle, lastUpdated, sections }: Le
         {/* Footer */}
         <footer style={{ borderTop: '1px solid rgba(255,255,255,0.04)', padding: '24px 28px' }}>
           <div style={{ maxWidth: '860px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640' }}>
-              © 2025 DISApline S.R.L. — Italy
-            </span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640' }}>
+                © 2026 ZB Capital S.R.L. — Italy
+              </span>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.55)', letterSpacing: '0.04em' }}>
+                C.F. / P.IVA / N. iscr. RI: 18314361009 · Atto cost. 20/11/2025 · Iscr. RI 02/02/2016
+              </span>
+            </div>
             <div style={{ display: 'flex', gap: '20px' }}>
               {[
                 { label: 'Privacy Policy', href: '/privacy' },

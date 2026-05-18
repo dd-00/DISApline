@@ -1,15 +1,15 @@
 import LegalPage from '@/components/legal/LegalPage'
 
 export const metadata = {
-  title: 'Terms of Service — DISApline',
-  description: 'Terms governing your use of the DISApline trading journal platform.',
+  title: 'Terms of Service — ZB Capital',
+  description: 'Terms governing your use of the ZB Capital trading journal platform.',
 }
 
 export default function TermsPage() {
   return (
     <LegalPage
       title="Terms of Service"
-      subtitle="The rules governing your use of DISApline"
+      subtitle="The rules governing your use of ZB Capital"
       lastUpdated="May 17, 2026"
       sections={[
         {
@@ -17,10 +17,10 @@ export default function TermsPage() {
           content: (
             <>
               <p>
-                By accessing or using DISApline (the &ldquo;Service&rdquo;), you agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree, do not use the Service.
+                By accessing or using ZB Capital (the &ldquo;Service&rdquo;), you agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree, do not use the Service.
               </p>
               <p>
-                DISApline is operated by <strong>DISApline S.R.L.</strong>, a company registered in Italy (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;). These Terms constitute a binding agreement between you and DISApline S.R.L.
+                ZB Capital is operated by <strong>ZB Capital S.R.L.</strong>, a company registered in Italy (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;). These Terms constitute a binding agreement between you and ZB Capital S.R.L.
               </p>
             </>
           ),
@@ -43,7 +43,7 @@ export default function TermsPage() {
           content: (
             <>
               <p>
-                DISApline is a trading journal and performance analytics platform designed to help traders track, analyse, and improve their trading discipline. The Service includes:
+                ZB Capital is a trading journal and performance analytics platform designed to help traders track, analyse, and improve their trading discipline. The Service includes:
               </p>
               <ul>
                 <li>Trade logging and tagging tools</li>
@@ -53,7 +53,7 @@ export default function TermsPage() {
                 <li>Optional broker integrations (where available)</li>
               </ul>
               <p>
-                DISApline is a <strong>personal productivity and journaling tool</strong>. It does not provide financial advice, investment recommendations, or brokerage services. See our <a href="/disclosures">Disclosures</a>.
+                ZB Capital is a <strong>personal productivity and journaling tool</strong>. It does not provide financial advice, investment recommendations, or brokerage services. See our <a href="/disclosures">Disclosures</a>.
               </p>
             </>
           ),
@@ -146,13 +146,13 @@ export default function TermsPage() {
           content: (
             <>
               <p>
-                The Service, including its design, source code, algorithms, analytics logic, branding, and documentation, is the exclusive intellectual property of DISApline S.R.L. and is protected by Italian and EU intellectual property law, including the Italian Industrial Property Code (Legislative Decree 30/2005) and EU Directive 2019/790.
+                The Service, including its design, source code, algorithms, analytics logic, branding, and documentation, is the exclusive intellectual property of ZB Capital S.R.L. and is protected by Italian and EU intellectual property law, including the Italian Industrial Property Code (Legislative Decree 30/2005) and EU Directive 2019/790.
               </p>
               <p>
                 <strong>Your content:</strong> You retain all rights to the trade data, notes, and content you input into the Service. You grant us a limited, non-exclusive licence to process that content solely to provide the Service to you. We do not claim ownership of your data.
               </p>
               <p>
-                Copyright © 2026 DISApline S.R.L. All rights reserved.
+                Copyright © 2026 ZB Capital S.R.L. All rights reserved.
               </p>
             </>
           ),
@@ -162,10 +162,10 @@ export default function TermsPage() {
           content: (
             <>
               <p>
-                DISApline is a journaling and analytics tool. Nothing on the platform constitutes financial advice, investment advice, or a recommendation to buy or sell any financial instrument. See our <a href="/disclosures">Risk Disclosures</a> for full details.
+                ZB Capital is a journaling and analytics tool. Nothing on the platform constitutes financial advice, investment advice, or a recommendation to buy or sell any financial instrument. See our <a href="/disclosures">Risk Disclosures</a> for full details.
               </p>
               <p>
-                DISApline S.R.L. is not a regulated investment firm, broker, or financial adviser under Italian law (TUF — Testo Unico della Finanza, Legislative Decree 58/1998) or EU MiFID II (Directive 2014/65/EU).
+                ZB Capital S.R.L. is not a regulated investment firm, broker, or financial adviser under Italian law (TUF — Testo Unico della Finanza, Legislative Decree 58/1998) or EU MiFID II (Directive 2014/65/EU).
               </p>
             </>
           ),
@@ -198,7 +198,7 @@ export default function TermsPage() {
           content: (
             <>
               <p>
-                To the maximum extent permitted by applicable law, DISApline S.R.L. shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or goodwill, arising out of or in connection with your use of the Service.
+                To the maximum extent permitted by applicable law, ZB Capital S.R.L. shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or goodwill, arising out of or in connection with your use of the Service.
               </p>
               <p>
                 Our aggregate liability to you for any claim arising out of or in connection with these Terms or the Service shall not exceed the amount you paid us in the 12 months preceding the claim.

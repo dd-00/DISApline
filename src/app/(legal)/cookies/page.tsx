@@ -1,8 +1,8 @@
 import LegalPage from '@/components/legal/LegalPage'
 
 export const metadata = {
-  title: 'Cookie Policy — DISApline',
-  description: 'How DISApline uses cookies and similar technologies on its platform.',
+  title: 'Cookie Policy — ZB Capital',
+  description: 'How ZB Capital uses cookies and similar technologies on its platform.',
 }
 
 export default function CookiesPage() {
@@ -20,7 +20,7 @@ export default function CookiesPage() {
                 Cookies are small text files placed on your device by a website when you visit it. They are widely used to make websites function, improve efficiency, and provide information to the website owner.
               </p>
               <p>
-                This Cookie Policy explains how DISApline S.R.L. uses cookies and similar technologies (such as local storage and session storage) on the DISApline platform, in accordance with the GDPR (EU Regulation 2016/679), the Italian Privacy Code (Legislative Decree 196/2003 as amended), and the Garante&apos;s guidelines on cookies (Provvedimento del 10 giugno 2021).
+                This Cookie Policy explains how ZB Capital S.R.L. uses cookies and similar technologies (such as local storage and session storage) on the ZB Capital platform, in accordance with the GDPR (EU Regulation 2016/679), the Italian Privacy Code (Legislative Decree 196/2003 as amended), and the Garante&apos;s guidelines on cookies (Provvedimento del 10 giugno 2021).
               </p>
             </>
           ),
@@ -67,7 +67,7 @@ export default function CookiesPage() {
 
               <p><strong>Cookies We Do Not Use</strong></p>
               <p>
-                DISApline does not use advertising cookies, behavioural targeting cookies, social media tracking pixels, or third-party remarketing tags of any kind.
+                ZB Capital does not use advertising cookies, behavioural targeting cookies, social media tracking pixels, or third-party remarketing tags of any kind.
               </p>
             </>
           ),
@@ -91,7 +91,7 @@ export default function CookiesPage() {
           title: 'Cookie Duration',
           content: (
             <>
-              <p>Cookies set by DISApline have the following lifespans:</p>
+              <p>Cookies set by ZB Capital have the following lifespans:</p>
               <ul>
                 <li><strong>Session cookies</strong> — deleted automatically when you close your browser</li>
                 <li><strong>Consent preference cookie</strong> — 12 months from the date of consent</li>
@@ -106,7 +106,7 @@ export default function CookiesPage() {
           content: (
             <>
               <p>
-                DISApline does not allow third parties to set advertising or tracking cookies on our platform. Authentication and session management is handled by Supabase, which may set cookies strictly necessary for those functions. Supabase acts as a data processor on our behalf under a Data Processing Agreement.
+                ZB Capital does not allow third parties to set advertising or tracking cookies on our platform. Authentication and session management is handled by Supabase, which may set cookies strictly necessary for those functions. Supabase acts as a data processor on our behalf under a Data Processing Agreement.
               </p>
               <p>
                 If you connect a third-party broker integration, that broker&apos;s own cookie policy will apply to any session you initiate on their platform.
@@ -124,7 +124,7 @@ export default function CookiesPage() {
 
               <p><strong>Cookie Banner</strong></p>
               <p>
-                When you first visit DISApline, a cookie consent banner allows you to accept or decline non-essential cookies. You can revisit this choice at any time via the cookie settings link in the footer.
+                When you first visit ZB Capital, a cookie consent banner allows you to accept or decline non-essential cookies. You can revisit this choice at any time via the cookie settings link in the footer.
               </p>
 
               <p><strong>Browser Settings</strong></p>

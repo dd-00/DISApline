@@ -1,8 +1,8 @@
 import LegalPage from '@/components/legal/LegalPage'
 
 export const metadata = {
-  title: 'Privacy Policy — DISApline',
-  description: 'How DISApline S.R.L. collects, processes, and protects your personal data under GDPR.',
+  title: 'Privacy Policy — ZB Capital',
+  description: 'How ZB Capital S.R.L. collects, processes, and protects your personal data under GDPR.',
 }
 
 export default function PrivacyPage() {
@@ -17,15 +17,15 @@ export default function PrivacyPage() {
           content: (
             <>
               <p>
-                The data controller for personal data collected through DISApline is:
+                The data controller for personal data collected through ZB Capital is:
               </p>
               <ul>
-                <li><strong>DISApline S.R.L.</strong></li>
+                <li><strong>ZB Capital S.R.L.</strong></li>
                 <li>Registered in Italy</li>
                 <li>Contact: <a href="mailto:support@disapline.com">support@disapline.com</a></li>
               </ul>
               <p>
-                DISApline S.R.L. is responsible for the lawful, fair, and transparent processing of your personal data in accordance with EU Regulation 2016/679 (GDPR) and the Italian Legislative Decree 196/2003 as amended by Legislative Decree 101/2018.
+                ZB Capital S.R.L. is responsible for the lawful, fair, and transparent processing of your personal data in accordance with EU Regulation 2016/679 (GDPR) and the Italian Legislative Decree 196/2003 as amended by Legislative Decree 101/2018.
               </p>
             </>
           ),
@@ -102,7 +102,7 @@ export default function PrivacyPage() {
           content: (
             <>
               <p>
-                DISApline is based in Italy (EU). Some of our sub-processors are located in the United States, which does not provide an adequacy decision equivalent to the EU. For all such transfers we rely on:
+                ZB Capital is based in Italy (EU). Some of our sub-processors are located in the United States, which does not provide an adequacy decision equivalent to the EU. For all such transfers we rely on:
               </p>
               <ul>
                 <li>Standard Contractual Clauses (SCCs) pursuant to European Commission Implementing Decision 2021/914/EU</li>

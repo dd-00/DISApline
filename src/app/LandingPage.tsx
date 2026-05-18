@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import CookieBanner from '@/components/ui/CookieBanner'
 
 const TICKER_ITEMS = ['DISCIPLINE', 'PSYCHOLOGY', 'PATTERN DETECTION', 'EQUITY TRACKING', 'BIAS AWARENESS', 'RULE ADHERENCE', 'REFLECTION', 'RISK CONTROL', 'FOCUS', 'CONSISTENCY', 'SELF-AWARENESS', 'EDGE']
 
@@ -323,12 +324,22 @@ export default function LandingPage() {
         .l-btn-ghost { transition: border-color 0.2s, color 0.2s, background 0.2s !important; }
         .l-btn-ghost:hover { border-color: rgba(201,162,39,0.4) !important; color: #E8E4D8 !important; background: rgba(201,162,39,0.04) !important; }
 
+        details summary::-webkit-details-marker { display: none; }
+        details summary::marker { display: none; }
+        details[open] summary .faq-plus { opacity: 0; }
+        details[open] summary .faq-minus { opacity: 1; }
+        details summary .faq-plus { opacity: 1; transition: opacity 0.15s; }
+        details summary .faq-minus { opacity: 0; position: absolute; transition: opacity 0.15s; }
+        details[open] > p { animation: fadeUp 0.25s ease both; }
+
         .grain-bg {
           position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.032;
           background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
           background-size: 200px;
         }
       `}</style>
+
+      <CookieBanner />
 
       {/* Grain */}
       <div className="grain-bg" />
@@ -389,6 +400,14 @@ export default function LandingPage() {
             </div>
           </div>
         </nav>
+
+        {/* ── DISCLAIMER STRIP ─────────────────────────────── */}
+        <div style={{ position: 'relative', zIndex: 10, background: 'rgba(201,162,39,0.05)', borderBottom: '1px solid rgba(201,162,39,0.1)', padding: '7px 28px' }}>
+          <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9.5px', color: 'rgba(201,162,39,0.62)', textAlign: 'center', letterSpacing: '0.05em', margin: 0 }}>
+            DISApline is a personal journaling tool — not financial advice. Trading involves substantial risk of loss.{' '}
+            <Link href="/disclosures" style={{ color: 'rgba(201,162,39,0.85)', textDecoration: 'none' }}>Risk disclosures →</Link>
+          </p>
+        </div>
 
         {/* ── HERO ─────────────────────────────────────────── */}
         <section style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '108px 28px 80px', position: 'relative', overflow: 'hidden' }}>
@@ -621,6 +640,80 @@ export default function LandingPage() {
             <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10px', color: '#4A4640', textDecoration: 'none', letterSpacing: '0.05em', display: 'inline-block' }}>
               Already have an account? Sign in →
             </Link>
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.5)', marginTop: '14px', lineHeight: 1.7, letterSpacing: '0.04em' }}>
+              EU consumers: 14-day right of withdrawal applies from date of purchase.{' '}
+              <Link href="/terms#right-of-withdrawal" style={{ color: 'rgba(201,162,39,0.55)', textDecoration: 'none' }}>Terms of Service</Link>
+              {' '}· Prices shown exclude VAT where applicable.
+            </p>
+          </div>
+        </section>
+
+        {/* ── FAQ ──────────────────────────────────────────── */}
+        <section id="faq" style={{ position: 'relative', zIndex: 5, padding: '88px 28px', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+          <div style={{ maxWidth: '760px', margin: '0 auto' }}>
+            <div ref={addReveal(16)} style={{ ...reveal(0), textAlign: 'center', marginBottom: '56px' }}>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C9A227', marginBottom: '14px' }}>FAQ</div>
+              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(30px, 3.8vw, 48px)', fontWeight: 300, letterSpacing: '-0.025em', lineHeight: 1.08, color: '#E8E4D8', margin: 0 }}>
+                Common questions.
+              </h2>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {[
+                {
+                  q: 'Can I cancel my subscription at any time?',
+                  a: 'Yes. Cancel from your account settings at any time. Access continues until the end of the current billing period — no pro-rated refunds for unused time, unless required by EU consumer law.',
+                },
+                {
+                  q: 'Is there a free trial?',
+                  a: 'Not currently. The monthly plan at $9.99 offers the lowest-commitment way to try the full platform. EU residents also have a 14-day right of withdrawal from the date of purchase.',
+                },
+                {
+                  q: 'What if I want a refund?',
+                  a: 'EU consumers have a statutory 14-day right of withdrawal. Contact support@disapline.com within that window. After day 14, refunds are issued only where we have materially failed to deliver the service.',
+                },
+                {
+                  q: 'Which brokers can I import from?',
+                  a: 'MetaTrader 4/5, Tradovate, Interactive Brokers (IBKR), NinjaTrader, and ThinkOrSwim — all via CSV export. The broker is auto-detected; just drop your file in.',
+                },
+                {
+                  q: 'Is my trading data secure?',
+                  a: 'Yes. All data is encrypted in transit (TLS 1.2+) and at rest (AES-256). Row-level security ensures each user can only ever access their own data. We never sell, share, or use your trading data to train AI models.',
+                },
+                {
+                  q: 'Does DISApline provide financial advice?',
+                  a: 'No. DISApline is a personal journaling and analytics tool. Nothing on the platform constitutes financial advice, investment recommendations, or trading signals. ZB Capital S.R.L. is not a regulated investment firm under Italian TUF or EU MiFID II.',
+                },
+                {
+                  q: 'What payment methods do you accept?',
+                  a: 'Credit and debit cards (Visa, Mastercard, Amex) via Stripe. Apple Pay and Google Pay where available. VAT is calculated and added at checkout in accordance with EU tax law.',
+                },
+                {
+                  q: 'What happens to my data if I cancel?',
+                  a: 'Your data is retained for 30 days after the subscription ends, giving you time to reconsider. After that it is permanently deleted. You can request immediate deletion by emailing support@disapline.com.',
+                },
+              ].map(({ q, a }, i) => (
+                <details key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <summary style={{
+                    fontFamily: "'Cormorant Garamond', serif", fontSize: '21px', fontWeight: 400,
+                    color: '#E8E4D8', padding: '20px 0', cursor: 'pointer',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    letterSpacing: '-0.01em', userSelect: 'none',
+                  }}>
+                    {q}
+                    <span style={{ position: 'relative', width: '18px', height: '18px', flexShrink: 0, marginLeft: '20px' }}>
+                      <span className="faq-plus" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '16px', color: 'rgba(201,162,39,0.55)', lineHeight: 1 }}>+</span>
+                      <span className="faq-minus" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '16px', color: 'rgba(201,162,39,0.55)', lineHeight: 1 }}>−</span>
+                    </span>
+                  </summary>
+                  <p style={{
+                    fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 300,
+                    color: '#8A8578', lineHeight: 1.88, margin: '0 0 22px',
+                    paddingRight: '40px', letterSpacing: '0.02em',
+                  }}>{a}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -633,10 +726,10 @@ export default function LandingPage() {
             <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
               <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign in</Link>
               <Link href="/signup" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign up</Link>
-              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.5)', letterSpacing: '0.06em' }}>© 2026 DISApline S.R.L.</span>
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.5)', letterSpacing: '0.06em' }}>© 2026 ZB Capital S.R.L.</span>
             </div>
           </div>
-          <div style={{ marginTop: '16px', display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+          <div style={{ marginTop: '16px', display: 'flex', gap: '24px', flexWrap: 'wrap', alignItems: 'center' }}>
             {[
               { label: 'Privacy Policy', href: '/privacy' },
               { label: 'Terms of Service', href: '/terms' },
@@ -647,6 +740,11 @@ export default function LandingPage() {
                 {label}
               </Link>
             ))}
+          </div>
+          <div style={{ marginTop: '12px' }}>
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.4)', letterSpacing: '0.04em', lineHeight: 1.8, margin: 0 }}>
+              ZB Capital S.R.L. · C.F. / P.IVA / N. iscr. Registro Imprese: 18314361009 · Data atto di costituzione: 20/11/2025 · Data iscrizione RI: 02/02/2016
+            </p>
           </div>
         </footer>
 
