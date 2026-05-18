@@ -1,12 +1,16 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import type { Trade, Pattern } from '@/types'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { TrendingUp, TrendingDown, AlertTriangle, Plus } from 'lucide-react'
+import { TrendingUp, TrendingDown, AlertTriangle, Plus, RotateCcw } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 
 interface Props {
+  userId: string
   scores: { emotion: number; discipline: number; bias: number; overall: number }
   scoreHistory: Array<{ date: string; overall_score: number; emotion_score: number; discipline_score: number; bias_score: number }>
   recentTrades: Trade[]
@@ -66,7 +70,20 @@ const SEVERITY_COLOR: Record<string, string> = {
   high: '#E05C5C',
 }
 
-export default function DashboardClient({ scores, scoreHistory, recentTrades, patterns, revengeTradeIds, stats, streak, todayPnl }: Props) {
+export default function DashboardClient({ userId, scores, scoreHistory, recentTrades, patterns, revengeTradeIds, stats, streak, todayPnl }: Props) {
+  const router  = useRouter()
+  const supabase = createClient()
+  const [resetting, setResetting] = useState(false)
+
+  async function resetPsychology() {
+    setResetting(true)
+    await supabase.from('check_ins').delete().eq('user_id', userId)
+    await supabase.from('patterns').delete().eq('user_id', userId)
+    await supabase.from('psych_scores').delete().eq('user_id', userId)
+    setResetting(false)
+    router.refresh()
+  }
+
   const chartData = [...scoreHistory].reverse().map(s => ({
     date: format(new Date(s.date), 'MMM d'),
     Overall: Math.round(s.overall_score),
@@ -79,6 +96,7 @@ export default function DashboardClient({ scores, scoreHistory, recentTrades, pa
 
   return (
     <div style={{ padding: '40px 48px', maxWidth: '1200px' }}>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       {/* Loss streak alert */}
       {streak.count >= 3 && streak.type === 'loss' && (
         <div style={{
@@ -139,8 +157,27 @@ export default function DashboardClient({ scores, scoreHistory, recentTrades, pa
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px' }}>
         {/* Overall score + breakdown */}
         <div style={{ background: 'var(--bg-el)', border: '1px solid var(--bdr)', borderRadius: '10px', padding: '28px 32px' }}>
-          <div style={{ fontFamily: "'Martian Mono', monospace", fontSize: '9.5px', fontWeight: 300, color: 'var(--smoke)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
-            Psychological Score
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+            <div style={{ fontFamily: "'Martian Mono', monospace", fontSize: '9.5px', fontWeight: 300, color: 'var(--smoke)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+              Psychological Score
+            </div>
+            <button
+              onClick={resetPsychology}
+              disabled={resetting}
+              title="Reset psychology scores"
+              style={{
+                display: 'flex', alignItems: 'center', gap: '5px',
+                background: 'transparent', border: '1px solid rgba(224,92,92,0.2)',
+                color: resetting ? 'var(--smoke)' : '#E05C5C',
+                fontFamily: "'Martian Mono', monospace", fontSize: '9px',
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                padding: '5px 10px', borderRadius: '5px', cursor: resetting ? 'not-allowed' : 'pointer',
+                opacity: resetting ? 0.5 : 1, transition: 'opacity 0.2s',
+              }}
+            >
+              <RotateCcw size={11} style={{ animation: resetting ? 'spin 0.8s linear infinite' : 'none' }} />
+              {resetting ? 'Resetting…' : 'Reset'}
+            </button>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '40px', marginBottom: '28px' }}>
             <ScoreRing value={scores.overall} label="Overall" color={overallColor} />
