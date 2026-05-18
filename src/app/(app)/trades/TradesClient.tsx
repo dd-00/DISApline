@@ -61,6 +61,8 @@ export default function TradesClient({ trades: initialTrades, userId }: { trades
     if (clearInput !== 'DELETE') return
     setClearLoading(true)
     await supabase.from('trades').delete().eq('user_id', userId)
+    await supabase.from('check_ins').delete().eq('user_id', userId)
+    await supabase.from('patterns').delete().eq('user_id', userId)
     await supabase.from('psych_scores').delete().eq('user_id', userId)
     setTrades([])
     setClearLoading(false)
