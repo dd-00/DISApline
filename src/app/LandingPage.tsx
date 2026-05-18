@@ -670,7 +670,7 @@ export default function LandingPage() {
                 },
                 {
                   q: 'What if I want a refund?',
-                  a: 'EU consumers have a statutory 14-day right of withdrawal. Contact support@disapline.com within that window. After day 14, refunds are issued only where we have materially failed to deliver the service.',
+                  a: 'EU consumers have a statutory 14-day right of withdrawal. Contact support@disapline.eu within that window. After day 14, refunds are issued only where we have materially failed to deliver the service.',
                 },
                 {
                   q: 'Which brokers can I import from?',
@@ -690,7 +690,7 @@ export default function LandingPage() {
                 },
                 {
                   q: 'What happens to my data if I cancel?',
-                  a: 'Your data is retained for 30 days after the subscription ends, giving you time to reconsider. After that it is permanently deleted. You can request immediate deletion by emailing support@disapline.com.',
+                  a: 'Your data is retained for 30 days after the subscription ends, giving you time to reconsider. After that it is permanently deleted. You can request immediate deletion by emailing support@disapline.eu.',
                 },
               ].map(({ q, a }, i) => (
                 <details key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>

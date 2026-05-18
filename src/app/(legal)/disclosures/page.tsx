@@ -79,7 +79,7 @@ export default function DisclosuresPage() {
                 <li>No guarantee is made that any metric is error-free or suitable for any particular trading decision</li>
               </ul>
               <p>
-                If you identify a calculation error, please report it to <a href="mailto:support@disapline.com">support@disapline.com</a>.
+                If you identify a calculation error, please report it to <a href="mailto:support@disapline.eu">support@disapline.eu</a>.
               </p>
             </>
           ),
@@ -154,7 +154,7 @@ export default function DisclosuresPage() {
                 For questions about these disclosures, contact us at:
               </p>
               <ul>
-                <li><a href="mailto:support@disapline.com">support@disapline.com</a></li>
+                <li><a href="mailto:support@disapline.eu">support@disapline.eu</a></li>
               </ul>
             </>
           ),

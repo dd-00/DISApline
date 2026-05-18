@@ -182,7 +182,7 @@ export default function CookiesPage() {
                 For questions about this Cookie Policy or to exercise your data rights, contact us at:
               </p>
               <ul>
-                <li><a href="mailto:support@disapline.com">support@disapline.com</a></li>
+                <li><a href="mailto:support@disapline.eu">support@disapline.eu</a></li>
               </ul>
             </>
           ),

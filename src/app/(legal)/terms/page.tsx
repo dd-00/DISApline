@@ -69,7 +69,7 @@ export default function TermsPage() {
                 <li>Provide accurate, current, and complete information during registration</li>
                 <li>Maintain and promptly update your account information</li>
                 <li>Keep your password confidential and not share access with others</li>
-                <li>Notify us immediately at <a href="mailto:support@disapline.com">support@disapline.com</a> of any unauthorised use of your account</li>
+                <li>Notify us immediately at <a href="mailto:support@disapline.eu">support@disapline.eu</a> of any unauthorised use of your account</li>
               </ul>
               <p>
                 You are solely responsible for all activity that occurs under your account.
@@ -104,7 +104,7 @@ export default function TermsPage() {
                 <strong>Waiver of withdrawal right:</strong> By activating a subscription and accessing the paid features of the Service immediately after purchase, you expressly request that performance begin before the withdrawal period expires and acknowledge that you lose your right of withdrawal once the service has been fully performed. Where the service has not been fully performed, a pro-rata deduction for the portion already delivered will apply to any refund.
               </p>
               <p>
-                To exercise the right of withdrawal (where applicable), contact us at <a href="mailto:support@disapline.com">support@disapline.com</a> before the 14-day period expires.
+                To exercise the right of withdrawal (where applicable), contact us at <a href="mailto:support@disapline.eu">support@disapline.eu</a> before the 14-day period expires.
               </p>
             </>
           ),
@@ -274,7 +274,7 @@ export default function TermsPage() {
                 For questions about these Terms, contact us at:
               </p>
               <ul>
-                <li><a href="mailto:support@disapline.com">support@disapline.com</a></li>
+                <li><a href="mailto:support@disapline.eu">support@disapline.eu</a></li>
               </ul>
             </>
           ),

@@ -22,7 +22,7 @@ export default function PrivacyPage() {
               <ul>
                 <li><strong>ZB Capital S.R.L.</strong></li>
                 <li>Registered in Italy</li>
-                <li>Contact: <a href="mailto:support@disapline.com">support@disapline.com</a></li>
+                <li>Contact: <a href="mailto:support@disapline.eu">support@disapline.eu</a></li>
               </ul>
               <p>
                 ZB Capital S.R.L. is responsible for the lawful, fair, and transparent processing of your personal data in accordance with EU Regulation 2016/679 (GDPR) and the Italian Legislative Decree 196/2003 as amended by Legislative Decree 101/2018.
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
                 <li>Technical safeguards including encryption in transit (TLS 1.2+) and at rest (AES-256)</li>
               </ul>
               <p>
-                You may request a copy of the applicable SCCs by contacting us at <a href="mailto:support@disapline.com">support@disapline.com</a>.
+                You may request a copy of the applicable SCCs by contacting us at <a href="mailto:support@disapline.eu">support@disapline.eu</a>.
               </p>
             </>
           ),
@@ -134,7 +134,7 @@ export default function PrivacyPage() {
           content: (
             <>
               <p>
-                As a data subject under GDPR you have the following rights, exercisable at any time by contacting <a href="mailto:support@disapline.com">support@disapline.com</a>:
+                As a data subject under GDPR you have the following rights, exercisable at any time by contacting <a href="mailto:support@disapline.eu">support@disapline.eu</a>:
               </p>
               <ul>
                 <li><strong>Right of access (Art. 15):</strong> obtain confirmation of whether we process your data and receive a copy</li>
@@ -223,7 +223,7 @@ export default function PrivacyPage() {
                 For any questions about this Privacy Policy or to exercise your rights, contact us at:
               </p>
               <ul>
-                <li><a href="mailto:support@disapline.com">support@disapline.com</a></li>
+                <li><a href="mailto:support@disapline.eu">support@disapline.eu</a></li>
               </ul>
               <p>
                 We aim to respond to all enquiries within 5 business days.
