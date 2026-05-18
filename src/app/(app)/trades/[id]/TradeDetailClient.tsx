@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { nowET, etInputToISO, formatET } from '@/lib/et'
 import { ETTimePicker } from '@/components/ui/ETTimePicker'
 import { uploadTradeChart, removeTradeChart } from './actions'
-import { ArrowLeft, Camera, X } from 'lucide-react'
+import { ArrowLeft, Camera, X, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import type { Trade, CheckIn } from '@/types'
 
@@ -61,6 +61,7 @@ export default function TradeDetailClient({ trade, checkIns }: { trade: Trade; c
   const [chartUrl, setChartUrl] = useState(trade.screenshot_url ?? '')
   const [uploading, setUploading] = useState(false)
   const [lightbox, setLightbox] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     if (!lightbox) return
@@ -87,6 +88,12 @@ export default function TradeDetailClient({ trade, checkIns }: { trade: Trade; c
     const result = await removeTradeChart(trade.id)
     if (result.error) { setError(result.error); return }
     setChartUrl('')
+  }
+
+  async function deleteTrade() {
+    await supabase.from('trades').delete().eq('id', trade.id)
+    router.push('/trades')
+    router.refresh()
   }
 
   async function closeTrade() {
@@ -197,16 +204,45 @@ export default function TradeDetailClient({ trade, checkIns }: { trade: Trade; c
             )}
           </p>
         </div>
-        {trade.status === 'open' && !closing && (
-          <button onClick={() => setClosing(true)} style={{
-            background: 'rgba(93,184,122,0.1)', border: '1px solid rgba(93,184,122,0.25)',
-            color: '#5DB87A', fontFamily: "'Martian Mono', monospace", fontSize: '10px',
-            fontWeight: 300, letterSpacing: '0.06em', textTransform: 'uppercase',
-            padding: '9px 16px', borderRadius: '7px', cursor: 'pointer',
-          }}>
-            Close Trade
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          {trade.status === 'open' && !closing && (
+            <button onClick={() => setClosing(true)} style={{
+              background: 'rgba(93,184,122,0.1)', border: '1px solid rgba(93,184,122,0.25)',
+              color: '#5DB87A', fontFamily: "'Martian Mono', monospace", fontSize: '10px',
+              fontWeight: 300, letterSpacing: '0.06em', textTransform: 'uppercase',
+              padding: '9px 16px', borderRadius: '7px', cursor: 'pointer',
+            }}>
+              Close Trade
+            </button>
+          )}
+          {confirmDelete ? (
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <span style={{ fontFamily: "'Martian Mono', monospace", fontSize: '10px', color: 'var(--smoke)' }}>Sure?</span>
+              <button onClick={deleteTrade} style={{
+                background: '#E05C5C', border: 'none', color: '#fff',
+                fontFamily: "'Martian Mono', monospace", fontSize: '10px', fontWeight: 500,
+                letterSpacing: '0.06em', textTransform: 'uppercase',
+                padding: '9px 16px', borderRadius: '7px', cursor: 'pointer',
+              }}>Delete</button>
+              <button onClick={() => setConfirmDelete(false)} style={{
+                background: 'transparent', border: '1px solid var(--bdr)', color: 'var(--smoke)',
+                fontFamily: "'Martian Mono', monospace", fontSize: '10px',
+                padding: '9px 12px', borderRadius: '7px', cursor: 'pointer',
+              }}>Cancel</button>
+            </div>
+          ) : (
+            <button onClick={() => setConfirmDelete(true)} style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              background: 'transparent', border: '1px solid rgba(224,92,92,0.25)',
+              color: '#E05C5C', fontFamily: "'Martian Mono', monospace", fontSize: '10px',
+              fontWeight: 300, letterSpacing: '0.06em', textTransform: 'uppercase',
+              padding: '9px 14px', borderRadius: '7px', cursor: 'pointer',
+            }}>
+              <Trash2 size={13} />
+              Delete
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Trade details */}
