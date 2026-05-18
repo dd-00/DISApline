@@ -717,6 +717,36 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ── CONTACT STRIP ────────────────────────────────── */}
+        <section style={{ position: 'relative', zIndex: 5, borderTop: '1px solid rgba(255,255,255,0.04)', background: 'linear-gradient(180deg, rgba(201,162,39,0.025) 0%, transparent 100%)', padding: '72px 28px' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 55% 70% at 50% 50%, rgba(201,162,39,0.05), transparent 70%)', pointerEvents: 'none' }} />
+          <div style={{ maxWidth: '1180px', margin: '0 auto', textAlign: 'center', position: 'relative' }}>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C9A227', marginBottom: '18px', opacity: 0.7 }}>Get in touch</div>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 'clamp(28px, 3.5vw, 46px)', fontWeight: 300, letterSpacing: '-0.025em', lineHeight: 1.1, color: '#E8E4D8', marginBottom: '20px' }}>
+              Questions? We&apos;re here.
+            </h2>
+            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 300, color: '#8A8578', maxWidth: '400px', margin: '0 auto 32px', lineHeight: 1.8, letterSpacing: '0.02em' }}>
+              Reach us for support, billing, or anything else. We respond within 1–2 business days.
+            </p>
+            <a
+              href="mailto:support@disapline.eu"
+              className="l-magnetic"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: '10px',
+                fontFamily: "'IBM Plex Mono', monospace", fontSize: '13px', fontWeight: 400,
+                color: '#C9A227', letterSpacing: '0.04em', textDecoration: 'none',
+                border: '1px solid rgba(201,162,39,0.28)', borderRadius: '7px',
+                padding: '14px 28px',
+                background: 'rgba(201,162,39,0.05)',
+                transition: 'border-color 0.2s, background 0.2s',
+              }}
+            >
+              <span style={{ opacity: 0.7, fontSize: '11px' }}>✉</span>
+              support@disapline.eu
+            </a>
+          </div>
+        </section>
+
         {/* ── FOOTER ───────────────────────────────────────── */}
         <footer style={{ position: 'relative', zIndex: 5, borderTop: '1px solid rgba(255,255,255,0.04)', padding: '24px 28px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
@@ -726,6 +756,7 @@ export default function LandingPage() {
             <div style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
               <Link href="/login" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign in</Link>
               <Link href="/signup" className="l-magnetic" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: '#4A4640', textDecoration: 'none', display: 'inline-block' }}>Sign up</Link>
+              <a href="mailto:support@disapline.eu" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '10.5px', color: 'rgba(201,162,39,0.55)', textDecoration: 'none', display: 'inline-block', letterSpacing: '0.02em' }}>support@disapline.eu</a>
               <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '9px', color: 'rgba(74,70,64,0.5)', letterSpacing: '0.06em' }}>© 2026 ZB Capital S.R.L.</span>
             </div>
           </div>
