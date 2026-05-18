@@ -3,7 +3,7 @@ import type { CheckIn, Trade } from '@/types'
 // Emotion score: average of mood, confidence (inverse stress), focus — scaled 0-100
 export function calcEmotionScore(checkIns: CheckIn[]): number {
   const pre = checkIns.filter(c => c.type === 'pre')
-  if (pre.length === 0) return 50
+  if (pre.length === 0) return 0
 
   const scores = pre.map(c => {
     const mood       = ((c.mood       ?? 3) / 5) * 100
@@ -19,7 +19,7 @@ export function calcEmotionScore(checkIns: CheckIn[]): number {
 // Discipline score: % of trades where all rules were followed
 export function calcDisciplineScore(checkIns: CheckIn[]): number {
   const relevant = checkIns.filter(c => c.followed_rules !== null)
-  if (relevant.length === 0) return 50
+  if (relevant.length === 0) return 0
   const followed = relevant.filter(c => c.followed_rules === true).length
   return Math.round((followed / relevant.length) * 100)
 }
@@ -27,7 +27,7 @@ export function calcDisciplineScore(checkIns: CheckIn[]): number {
 // Bias score: 100 minus deduction per flag detected
 export function calcBiasScore(checkIns: CheckIn[]): number {
   const allFlags = checkIns.flatMap(c => c.flags ?? [])
-  if (allFlags.length === 0) return 85
+  if (allFlags.length === 0) return 0
 
   const flagCounts: Record<string, number> = {}
   allFlags.forEach(f => { flagCounts[f] = (flagCounts[f] ?? 0) + 1 })
