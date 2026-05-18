@@ -5,7 +5,7 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 export const PLANS = {
-  monthly:  { priceId: 'price_1TY0qkCQucchmjoSBbXM1cIu', mode: 'subscription' as const },
-  yearly:   { priceId: 'price_1TY0szCQucchmjoSzb6rLJnl', mode: 'subscription' as const },
-  lifetime: { priceId: 'price_1TY0uiCQucchmjoSsGsrLeBj', mode: 'payment'       as const },
+  monthly:  { priceId: 'price_1TYRVVC9ZFtQkMueBvbRuQbt', mode: 'subscription' as const },
+  yearly:   { priceId: 'price_1TYRVUC9ZFtQkMuerNbtWsKm', mode: 'subscription' as const },
+  lifetime: { priceId: 'price_1TYRVRC9ZFtQkMueQeUS7OHL', mode: 'payment'       as const },
 }
