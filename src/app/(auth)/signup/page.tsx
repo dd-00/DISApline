@@ -40,10 +40,7 @@ export default function SignupPage() {
 
   return (
     <div style={{ background: 'var(--bg-el)', border: '1px solid var(--bdr)', borderRadius: '12px', padding: '36px' }}>
-      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '30px', fontWeight: 300, color: 'var(--chalk)', marginBottom: '6px' }}>Start your journey</h1>
-      <p style={{ fontFamily: "'Martian Mono', monospace", fontSize: '11px', fontWeight: 300, color: 'var(--smoke)', letterSpacing: '0.04em', marginBottom: '28px' }}>
-        Free during beta · No credit card required
-      </p>
+      <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '30px', fontWeight: 300, color: 'var(--chalk)', marginBottom: '28px' }}>Start your journey</h1>
 
       <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {[
