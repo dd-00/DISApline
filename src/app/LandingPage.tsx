@@ -726,7 +726,7 @@ export default function LandingPage() {
               Questions? We&apos;re here.
             </h2>
             <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '11px', fontWeight: 300, color: '#8A8578', maxWidth: '400px', margin: '0 auto 32px', lineHeight: 1.8, letterSpacing: '0.02em' }}>
-              Reach us for support, billing, or anything else. We respond within 1–2 business days.
+              Reach us for support, billing, or anything else.<br />We respond within 1–2 business days.
             </p>
             <a
               href="mailto:support@disapline.eu"
