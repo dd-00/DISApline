@@ -437,7 +437,7 @@ export default function LandingPage() {
               </h1>
 
               <p className="l-sub" style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: '13px', fontWeight: 300, color: '#8A8578', letterSpacing: '0.02em', lineHeight: 1.82, maxWidth: '440px', marginBottom: '40px' }}>
-                The trading journal built around your psychology — not just your trades. Track emotional triggers, detect cognitive biases, and measure rule adherence across every session.<span className="l-blink" style={{ color: '#C9A227', marginLeft: '1px' }}>_</span>
+                The trading journal built around your psychology.<br />Not just your trades.<br />Track emotional triggers, detect cognitive biases, and measure rule adherence across every session.<span className="l-blink" style={{ color: '#C9A227', marginLeft: '1px' }}>_</span>
               </p>
 
               <div className="l-ctas" style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
