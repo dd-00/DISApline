@@ -71,7 +71,6 @@ export default async function DashboardPage() {
 
   return (
     <DashboardClient
-      userId={user!.id}
       scores={{ emotion, discipline, bias, overall }}
       scoreHistory={scores}
       recentTrades={trades.slice(0, 10)}

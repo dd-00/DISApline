@@ -7,10 +7,9 @@ import type { Trade, Pattern } from '@/types'
 import { format } from 'date-fns'
 import Link from 'next/link'
 import { TrendingUp, TrendingDown, AlertTriangle, Plus, RotateCcw } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { resetPsychologyData } from './actions'
 
 interface Props {
-  userId: string
   scores: { emotion: number; discipline: number; bias: number; overall: number }
   scoreHistory: Array<{ date: string; overall_score: number; emotion_score: number; discipline_score: number; bias_score: number }>
   recentTrades: Trade[]
@@ -70,16 +69,13 @@ const SEVERITY_COLOR: Record<string, string> = {
   high: '#E05C5C',
 }
 
-export default function DashboardClient({ userId, scores, scoreHistory, recentTrades, patterns, revengeTradeIds, stats, streak, todayPnl }: Props) {
-  const router  = useRouter()
-  const supabase = createClient()
+export default function DashboardClient({ scores, scoreHistory, recentTrades, patterns, revengeTradeIds, stats, streak, todayPnl }: Props) {
+  const router = useRouter()
   const [resetting, setResetting] = useState(false)
 
   async function resetPsychology() {
     setResetting(true)
-    await supabase.from('check_ins').delete().eq('user_id', userId)
-    await supabase.from('patterns').delete().eq('user_id', userId)
-    await supabase.from('psych_scores').delete().eq('user_id', userId)
+    await resetPsychologyData()
     setResetting(false)
     router.refresh()
   }
