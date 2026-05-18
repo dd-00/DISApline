@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
     automatic_tax: { enabled: true },
     tax_id_collection: { enabled: true },
     payment_method_types: ['card'],
+    allow_promotion_codes: true,
     success_url: `${origin}/dashboard?checkout=success`,
     cancel_url:  `${origin}/#pricing`,
     metadata: { user_id: user.id, plan },
