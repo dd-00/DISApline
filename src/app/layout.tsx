@@ -5,7 +5,6 @@ import { ThemeProvider } from '@/components/ui/ThemeProvider'
 export const metadata: Metadata = {
   title: 'DISApline — Know Yourself. Trade Better.',
   description: 'The trading journal built around your psychology.',
-  icons: { icon: '/icon.svg', shortcut: '/icon.svg' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
