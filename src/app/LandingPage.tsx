@@ -57,10 +57,27 @@ export default function LandingPage() {
   const revealRefs = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window)
     const W = window.innerWidth
     const H = window.innerHeight
 
     // ── Generate stars ─────────────────────────────────────
+    if (isMobile) {
+      // Skip constellation and cursor on mobile — too heavy and irrelevant for touch
+      const obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement
+            el.style.opacity = '1'
+            el.style.transform = 'translateY(0)'
+          }
+        }),
+        { threshold: 0.08 }
+      )
+      revealRefs.current.forEach(el => { if (el) obs.observe(el) })
+      return () => obs.disconnect()
+    }
+
     starsRef.current = Array.from({ length: 150 }, () => ({
       x: Math.random() * W,
       y: Math.random() * H,
@@ -298,6 +315,8 @@ export default function LandingPage() {
         @media (max-width: 768px) {
           .l-feat-grid { grid-template-columns: 1fr !important; }
           .l-pricing-grid { grid-template-columns: 1fr !important; }
+          .l-constellation { display: none !important; }
+          .l-cursor-dot, .l-cursor-ring { display: none !important; }
         }
 
         .l-card { transition: border-color 0.22s, transform 0.22s, background 0.22s, box-shadow 0.22s !important; }
@@ -351,12 +370,13 @@ export default function LandingPage() {
       <div className="grain-bg" />
 
       {/* Constellation canvas */}
-      <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: 1, pointerEvents: 'none' }} />
+      <canvas ref={canvasRef} className="l-constellation" style={{ position: 'fixed', inset: 0, zIndex: 1, pointerEvents: 'none' }} />
 
 
       {/* Cursor — gold dot (exact position) */}
       <div
         ref={dotRef}
+        className="l-cursor-dot"
         style={{
           position: 'fixed', top: 0, left: 0, pointerEvents: 'none', zIndex: 9999,
           width: cursorHover ? '8px' : '6px',
@@ -372,6 +392,7 @@ export default function LandingPage() {
       {/* Cursor — ring (delayed follow) */}
       <div
         ref={ringRef}
+        className="l-cursor-ring"
         style={{
           position: 'fixed', top: 0, left: 0, pointerEvents: 'none', zIndex: 9998,
           width: cursorHover ? '56px' : '34px',
