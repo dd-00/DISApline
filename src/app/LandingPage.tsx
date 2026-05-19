@@ -294,6 +294,12 @@ export default function LandingPage() {
         .l-ticker { animation: ticker 30s linear infinite; }
         .l-dot   { animation: pulse 2.2s ease-in-out infinite; }
 
+        .l-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        @media (max-width: 768px) {
+          .l-feat-grid { grid-template-columns: 1fr !important; }
+          .l-pricing-grid { grid-template-columns: 1fr !important; }
+        }
+
         .l-card { transition: border-color 0.22s, transform 0.22s, background 0.22s, box-shadow 0.22s !important; }
         .l-card:hover {
           border-color: rgba(201,162,39,0.32) !important;
@@ -486,7 +492,7 @@ export default function LandingPage() {
                 Built around your psychology,<br />not just your trades.
               </h2>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px' }}>
+            <div className="l-feat-grid">
               {FEATURES.map(({ num, title, desc, color }, i) => (
                 <div key={num} ref={addReveal(i + 1)} className="l-card" style={{ ...reveal(i + 1), padding: '32px', borderRadius: '10px', background: '#111113', border: '1px solid rgba(255,255,255,0.055)', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, ${color}, transparent 70%)` }} />
@@ -565,7 +571,7 @@ export default function LandingPage() {
             </h2>
           </div>
 
-          <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', alignItems: 'start' }}>
+          <div className="l-pricing-grid" style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', alignItems: 'start' }}>
 
             {/* Monthly */}
             <div ref={addReveal(9)} style={{ ...reveal(9), borderRadius: '12px', background: '#111113', border: '1px solid rgba(255,255,255,0.06)', padding: '36px 32px 32px', display: 'flex', flexDirection: 'column', gap: '0' }}>
