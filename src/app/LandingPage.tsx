@@ -61,126 +61,31 @@ export default function LandingPage() {
     const W = window.innerWidth
     const H = window.innerHeight
 
-    // ── Generate stars ─────────────────────────────────────
+    // ── Scroll reveal (always runs — mobile and desktop) ──
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement
+          el.style.opacity = '1'
+          el.style.transform = 'translateY(0)'
+        }
+      }),
+      { threshold: 0, rootMargin: '0px 0px -5% 0px' }
+    )
+    revealRefs.current.forEach(el => { if (el) obs.observe(el) })
+    // Fallback: reveal everything after 1.5s (Safari IntersectionObserver quirks)
+    const fallback = setTimeout(() => {
+      revealRefs.current.forEach(el => {
+        if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)' }
+      })
+    }, 1500)
+
     if (isMobile) {
-      // Skip constellation and cursor on mobile — too heavy and irrelevant for touch
-      const obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) {
-            const el = e.target as HTMLElement
-            el.style.opacity = '1'
-            el.style.transform = 'translateY(0)'
-          }
-        }),
-        { threshold: 0, rootMargin: '0px 0px -5% 0px' }
-      )
-      revealRefs.current.forEach(el => { if (el) obs.observe(el) })
-      // Safari fallback: reveal everything after 1.5s in case observer doesn't fire
-      const fallback = setTimeout(() => {
-        revealRefs.current.forEach(el => {
-          if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)' }
-        })
-      }, 1500)
       return () => { obs.disconnect(); clearTimeout(fallback) }
     }
 
-    // Guard: if canvas isn't mounted yet (can happen in Safari), skip constellation
-    if (!canvasRef.current) return
-
-    starsRef.current = Array.from({ length: 150 }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.3 + 0.4,
-      phase: Math.random() * Math.PI * 2,
-      speed: Math.random() * 0.7 + 0.25,
-      driftX: Math.random() * Math.PI * 2,
-      driftY: Math.random() * Math.PI * 2,
-      driftSpeed: Math.random() * 1.2 + 0.5,
-    }))
-
-    const canvas = canvasRef.current
-    canvas.width = W
-    canvas.height = H
-    const ctx = canvas.getContext('2d')!
-    // Mark body so cursor: none CSS activates only when cursor JS is running
-    document.body.classList.add('has-custom-cursor')
-
-    const LINK_DIST = 145
-    const GLOW_DIST = 190
-
-    // ── Constellation RAF ──────────────────────────────────
-    let constRaf: number
-    function drawStars() {
-      const now = performance.now() / 1000
-      const mx = mouseConst.current.x
-      const my = mouseConst.current.y
-      const stars = starsRef.current
-      ctx.clearRect(0, 0, W, H)
-
-      // Compute drifted positions once per frame
-      const px = stars.map(s => s.x + Math.sin(now * s.driftSpeed + s.driftX) * 14)
-      const py = stars.map(s => s.y + Math.cos(now * s.driftSpeed * 0.8 + s.driftY) * 10)
-
-      // Lines
-      for (let i = 0; i < stars.length; i++) {
-        for (let j = i + 1; j < stars.length; j++) {
-          const dist = Math.hypot(px[i] - px[j], py[i] - py[j])
-          if (dist > LINK_DIST) continue
-
-          const midX = (px[i] + px[j]) / 2
-          const midY = (py[i] + py[j]) / 2
-          const mDist = Math.hypot(midX - mx, midY - my)
-          const prox = Math.max(0, 1 - mDist / GLOW_DIST)
-          const fade = 1 - dist / LINK_DIST
-
-          ctx.beginPath()
-          ctx.moveTo(px[i], py[i])
-          ctx.lineTo(px[j], py[j])
-          ctx.strokeStyle = prox > 0
-            ? `rgba(201,162,39,${0.03 + prox * 0.13})`
-            : `rgba(138,133,120,${0.022 * fade})`
-          ctx.lineWidth = prox > 0 ? 0.4 + prox * 0.3 : 0.25
-          ctx.stroke()
-        }
-      }
-
-      // Stars
-      for (let k = 0; k < stars.length; k++) {
-        const s = stars[k]
-        const sx = px[k], sy = py[k]
-        const sDist = Math.hypot(sx - mx, sy - my)
-        const prox  = Math.max(0, 1 - sDist / GLOW_DIST)
-        const twinkle = Math.sin(now * s.speed + s.phase) * 0.5 + 0.5
-
-        if (prox > 0) {
-          // soft outer glow
-          const glowR = s.r + prox * 8
-          const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, glowR)
-          g.addColorStop(0, `rgba(201,162,39,${prox * 0.14})`)
-          g.addColorStop(1, 'rgba(201,162,39,0)')
-          ctx.beginPath()
-          ctx.arc(sx, sy, glowR, 0, Math.PI * 2)
-          ctx.fillStyle = g
-          ctx.fill()
-
-          // core
-          ctx.beginPath()
-          ctx.arc(sx, sy, s.r * (1 + prox * 0.6), 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(201,162,39,${0.18 + prox * 0.18})`
-          ctx.fill()
-        } else {
-          const base = 0.06 + twinkle * 0.07
-          ctx.beginPath()
-          ctx.arc(sx, sy, s.r * (0.8 + twinkle * 0.25), 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(190,178,148,${base})`
-          ctx.fill()
-        }
-      }
-      constRaf = requestAnimationFrame(drawStars)
-    }
-    drawStars()
-
     // ── Cursor RAF ─────────────────────────────────────────
+    document.body.classList.add('has-custom-cursor')
     let curRaf: number
     function moveCursor() {
       const mx = mouseTarget.current.x
@@ -208,7 +113,6 @@ export default function LandingPage() {
         const cy = rect.top + rect.height / 2
         const dist = Math.hypot(e.clientX - cx, e.clientY - cy)
         const radius = 90
-
         if (dist < radius) {
           const pull = (1 - dist / radius)
           const dx = (e.clientX - cx) * pull * 0.42
@@ -229,49 +133,97 @@ export default function LandingPage() {
       mouseTarget.current = { x: e.clientX, y: e.clientY }
       applyMagnetic(e)
     }
-
     const onOver = (e: MouseEvent) => {
       const hovering = !!(e.target as HTMLElement).closest('a, button')
       isHover.current = hovering
       setCursorHover(hovering)
     }
-
     window.addEventListener('mousemove', onMove)
     window.addEventListener('mouseover', onOver)
 
-    // ── Scroll reveal ──────────────────────────────────────
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => {
-        if (e.isIntersecting) {
-          const el = e.target as HTMLElement
-          el.style.opacity = '1'
-          el.style.transform = 'translateY(0)'
-        }
-      }),
-      { threshold: 0, rootMargin: '0px 0px -5% 0px' }
-    )
-    revealRefs.current.forEach(el => { if (el) obs.observe(el) })
-    // Safari fallback: reveal everything after 1.5s
-    const fallback = setTimeout(() => {
-      revealRefs.current.forEach(el => {
-        if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)' }
-      })
-    }, 1500)
+    // ── Constellation (optional — only if canvas is available) ──
+    let constRaf: number = 0
+    const canvas = canvasRef.current
+    if (canvas) {
+      starsRef.current = Array.from({ length: 150 }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.3 + 0.4,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.7 + 0.25,
+        driftX: Math.random() * Math.PI * 2,
+        driftY: Math.random() * Math.PI * 2,
+        driftSpeed: Math.random() * 1.2 + 0.5,
+      }))
+      canvas.width = W
+      canvas.height = H
+      const ctx = canvas.getContext('2d')!
+      const LINK_DIST = 145
+      const GLOW_DIST = 190
 
-    const onResize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      function drawStars() {
+        const now = performance.now() / 1000
+        const mx = mouseConst.current.x
+        const my = mouseConst.current.y
+        const stars = starsRef.current
+        ctx.clearRect(0, 0, W, H)
+        const px = stars.map(s => s.x + Math.sin(now * s.driftSpeed + s.driftX) * 14)
+        const py = stars.map(s => s.y + Math.cos(now * s.driftSpeed * 0.8 + s.driftY) * 10)
+        for (let i = 0; i < stars.length; i++) {
+          for (let j = i + 1; j < stars.length; j++) {
+            const dist = Math.hypot(px[i] - px[j], py[i] - py[j])
+            if (dist > LINK_DIST) continue
+            const midX = (px[i] + px[j]) / 2
+            const midY = (py[i] + py[j]) / 2
+            const mDist = Math.hypot(midX - mx, midY - my)
+            const prox = Math.max(0, 1 - mDist / GLOW_DIST)
+            const fade = 1 - dist / LINK_DIST
+            ctx.beginPath()
+            ctx.moveTo(px[i], py[i])
+            ctx.lineTo(px[j], py[j])
+            ctx.strokeStyle = prox > 0 ? `rgba(201,162,39,${0.03 + prox * 0.13})` : `rgba(138,133,120,${0.022 * fade})`
+            ctx.lineWidth = prox > 0 ? 0.4 + prox * 0.3 : 0.25
+            ctx.stroke()
+          }
+        }
+        for (let k = 0; k < stars.length; k++) {
+          const s = stars[k]
+          const sx = px[k], sy = py[k]
+          const sDist = Math.hypot(sx - mx, sy - my)
+          const prox  = Math.max(0, 1 - sDist / GLOW_DIST)
+          const twinkle = Math.sin(now * s.speed + s.phase) * 0.5 + 0.5
+          if (prox > 0) {
+            const glowR = s.r + prox * 8
+            const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, glowR)
+            g.addColorStop(0, `rgba(201,162,39,${prox * 0.14})`)
+            g.addColorStop(1, 'rgba(201,162,39,0)')
+            ctx.beginPath(); ctx.arc(sx, sy, glowR, 0, Math.PI * 2)
+            ctx.fillStyle = g; ctx.fill()
+            ctx.beginPath(); ctx.arc(sx, sy, s.r * (1 + prox * 0.6), 0, Math.PI * 2)
+            ctx.fillStyle = `rgba(201,162,39,${0.18 + prox * 0.18})`; ctx.fill()
+          } else {
+            const base = 0.06 + twinkle * 0.07
+            ctx.beginPath(); ctx.arc(sx, sy, s.r * (0.8 + twinkle * 0.25), 0, Math.PI * 2)
+            ctx.fillStyle = `rgba(190,178,148,${base})`; ctx.fill()
+          }
+        }
+        constRaf = requestAnimationFrame(drawStars)
+      }
+      drawStars()
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+      })
     }
-    window.addEventListener('resize', onResize)
 
     return () => {
       window.removeEventListener('mousemove', onMove)
       window.removeEventListener('mouseover', onOver)
-      window.removeEventListener('resize', onResize)
-      cancelAnimationFrame(constRaf)
+      if (constRaf) cancelAnimationFrame(constRaf)
       cancelAnimationFrame(curRaf)
       obs.disconnect()
       clearTimeout(fallback)
+      document.body.classList.remove('has-custom-cursor')
     }
   }, [])
 
