@@ -57,7 +57,7 @@ export default function LandingPage() {
   const revealRefs = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches || ('ontouchstart' in window)
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
     const W = window.innerWidth
     const H = window.innerHeight
 
