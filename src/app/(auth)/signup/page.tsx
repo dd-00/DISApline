@@ -6,15 +6,17 @@ import { createClient } from '@/lib/supabase/client'
 
 export default function SignupPage() {
   const supabase = createClient()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
-  const [error, setError] = useState('')
-  const [done, setDone] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail]           = useState('')
+  const [password, setPassword]     = useState('')
+  const [confirm, setConfirm]       = useState('')
+  const [name, setName]             = useState('')
+  const [error, setError]           = useState('')
+  const [done, setDone]             = useState(false)
+  const [loading, setLoading]       = useState(false)
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()
+    if (password !== confirm) { setError('Passwords do not match.'); return }
     setLoading(true)
     setError('')
     const { error } = await supabase.auth.signUp({
@@ -23,6 +25,12 @@ export default function SignupPage() {
     })
     if (error) { setError(error.message); setLoading(false); return }
     setDone(true)
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%', background: 'rgba(255,255,255,0.03)', color: 'var(--chalk)',
+    fontFamily: "'Martian Mono', monospace", fontSize: '12px', fontWeight: 300,
+    padding: '11px 14px', borderRadius: '6px', outline: 'none',
   }
 
   if (done) {
@@ -44,18 +52,36 @@ export default function SignupPage() {
 
       <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {[
-          { label: 'Full Name', type: 'text', val: name, set: setName, ph: 'Jane Doe' },
-          { label: 'Email', type: 'email', val: email, set: setEmail, ph: 'you@email.com' },
-          { label: 'Password', type: 'password', val: password, set: setPassword, ph: '••••••••' },
+          { label: 'Full Name', type: 'text',     val: name,     set: setName,     ph: 'Jane Doe' },
+          { label: 'Email',     type: 'email',    val: email,    set: setEmail,    ph: 'you@email.com' },
+          { label: 'Password',  type: 'password', val: password, set: setPassword, ph: '••••••••' },
         ].map(({ label, type, val, set, ph }) => (
           <div key={label}>
             <label style={{ fontFamily: "'Martian Mono', monospace", fontSize: '10px', fontWeight: 300, color: 'var(--smoke)', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>{label}</label>
             <input
               type={type} value={val} onChange={e => set(e.target.value)} required placeholder={ph}
-              style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--bdr)', color: 'var(--chalk)', fontFamily: "'Martian Mono', monospace", fontSize: '12px', fontWeight: 300, padding: '11px 14px', borderRadius: '6px', outline: 'none' }}
+              style={{ ...inputStyle, border: '1px solid var(--bdr)' }}
             />
           </div>
         ))}
+
+        {/* Confirm password */}
+        <div>
+          <label style={{ fontFamily: "'Martian Mono', monospace", fontSize: '10px', fontWeight: 300, color: 'var(--smoke)', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>Confirm Password</label>
+          <input
+            type="password" value={confirm} onChange={e => setConfirm(e.target.value)} required placeholder="••••••••"
+            style={{
+              ...inputStyle,
+              border: `1px solid ${confirm && confirm !== password ? 'rgba(224,92,92,0.5)' : confirm && confirm === password ? 'rgba(93,184,122,0.5)' : 'var(--bdr)'}`,
+            }}
+          />
+          {confirm && confirm !== password && (
+            <p style={{ fontFamily: "'Martian Mono', monospace", fontSize: '9.5px', color: '#E05C5C', marginTop: '5px' }}>Passwords do not match</p>
+          )}
+          {confirm && confirm === password && (
+            <p style={{ fontFamily: "'Martian Mono', monospace", fontSize: '9.5px', color: '#5DB87A', marginTop: '5px' }}>Passwords match</p>
+          )}
+        </div>
 
         {error && (
           <p style={{ fontFamily: "'Martian Mono', monospace", fontSize: '11px', color: 'var(--red)', background: 'rgba(200,80,80,0.08)', border: '1px solid rgba(200,80,80,0.2)', padding: '10px 12px', borderRadius: '6px' }}>
