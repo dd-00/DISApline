@@ -32,7 +32,7 @@ export default function ImportModal({ userId, onClose, onImported }: Props) {
     if (firstLine.includes('DataDiscriminator')) return 'ibkr'
     if (firstLine.includes('Instrument') && (firstLine.includes('Action') || firstLine.includes('Entry Time'))) return 'ninjatrader'
     if (firstLine.includes('Net Amount') && firstLine.includes('Date') && firstLine.includes('Time')) return 'thinkorswim'
-    if (firstLine.includes('Trade Id') || firstLine.includes('Side')) return 'tradovate'
+    if (firstLine.includes('Trade Id') || firstLine.includes('Side') || firstLine.includes('buyFillId') || firstLine.includes('boughtTimestamp')) return 'tradovate'
     return 'unknown'
   }
 
