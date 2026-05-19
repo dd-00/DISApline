@@ -72,11 +72,20 @@ export default function LandingPage() {
             el.style.transform = 'translateY(0)'
           }
         }),
-        { threshold: 0.08 }
+        { threshold: 0, rootMargin: '0px 0px -5% 0px' }
       )
       revealRefs.current.forEach(el => { if (el) obs.observe(el) })
-      return () => obs.disconnect()
+      // Safari fallback: reveal everything after 1.5s in case observer doesn't fire
+      const fallback = setTimeout(() => {
+        revealRefs.current.forEach(el => {
+          if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)' }
+        })
+      }, 1500)
+      return () => { obs.disconnect(); clearTimeout(fallback) }
     }
+
+    // Guard: if canvas isn't mounted yet (can happen in Safari), skip constellation
+    if (!canvasRef.current) return
 
     starsRef.current = Array.from({ length: 150 }, () => ({
       x: Math.random() * W,
@@ -89,10 +98,12 @@ export default function LandingPage() {
       driftSpeed: Math.random() * 1.2 + 0.5,
     }))
 
-    const canvas = canvasRef.current!
+    const canvas = canvasRef.current
     canvas.width = W
     canvas.height = H
     const ctx = canvas.getContext('2d')!
+    // Mark body so cursor: none CSS activates only when cursor JS is running
+    document.body.classList.add('has-custom-cursor')
 
     const LINK_DIST = 145
     const GLOW_DIST = 190
@@ -237,9 +248,15 @@ export default function LandingPage() {
           el.style.transform = 'translateY(0)'
         }
       }),
-      { threshold: 0.08 }
+      { threshold: 0, rootMargin: '0px 0px -5% 0px' }
     )
     revealRefs.current.forEach(el => { if (el) obs.observe(el) })
+    // Safari fallback: reveal everything after 1.5s
+    const fallback = setTimeout(() => {
+      revealRefs.current.forEach(el => {
+        if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)' }
+      })
+    }, 1500)
 
     const onResize = () => {
       canvas.width = window.innerWidth
@@ -254,6 +271,7 @@ export default function LandingPage() {
       cancelAnimationFrame(constRaf)
       cancelAnimationFrame(curRaf)
       obs.disconnect()
+      clearTimeout(fallback)
     }
   }, [])
 
@@ -268,7 +286,7 @@ export default function LandingPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
 
-        * { cursor: none !important; }
+        body.has-custom-cursor, body.has-custom-cursor * { cursor: none !important; }
 
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(24px); }
